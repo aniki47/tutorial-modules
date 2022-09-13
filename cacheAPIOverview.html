@@ -1,0 +1,94 @@
+<html>
+  <title>Cache API Overview</title>
+  <body>
+      <p>
+        I&nbsp;can't really put it better than in the documentation so
+        I&nbsp;would just quote it:
+      </p>
+      <div class="ud-component--base-components--code-block">
+        <div>
+          <pre
+            class="prettyprint linenums prettyprinted"
+            role="presentation"
+            style=""
+          ><ol class="linenums"><li class="L0"><span class="typ">The</span><span class="pln"> </span><span class="typ">Cache</span><span class="pln"> API </span><span class="kwd">is</span><span class="pln"> used to store data that takes a </span><span class="kwd">long</span><span class="pln"> time to compute</span><span class="pun">.</span><span class="pln"> </span><span class="typ">Caching</span><span class="pln"> can either be permanent </span><span class="kwd">or</span><span class="pln"> valid only </span><span class="kwd">for</span><span class="pln"> a certain timespan</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">and</span><span class="pln"> the cache can contain any type of data</span><span class="pun">.</span></li><li class="L1"><span class="typ">To</span><span class="pln"> </span><span class="kwd">use</span><span class="pln"> the </span><span class="typ">Cache</span><span class="pln"> API</span><span class="pun">:</span></li><li class="L2"><span class="typ">Request</span><span class="pln"> a cache </span><span class="kwd">object</span><span class="pln"> through \Drupal</span><span class="pun">::</span><span class="pln">cache</span><span class="pun">()</span><span class="pln"> </span><span class="kwd">or</span><span class="pln"> </span><span class="kwd">by</span><span class="pln"> injecting a cache service</span><span class="pun">.</span></li><li class="L3"><span class="typ">Define</span><span class="pln"> a </span><span class="typ">Cache</span><span class="pln"> ID </span><span class="pun">(</span><span class="pln">cid</span><span class="pun">)</span><span class="pln"> value </span><span class="kwd">for</span><span class="pln"> your data</span><span class="pun">.</span><span class="pln"> A cid </span><span class="kwd">is</span><span class="pln"> a </span><span class="kwd">string</span><span class="pun">,</span><span class="pln"> which must contain enough information to uniquely identify the data</span><span class="pun">.</span><span class="pln"> </span><span class="typ">For</span><span class="pln"> example</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">if</span><span class="pln"> your data contains translated strings</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">then</span><span class="pln"> your cid value must include the </span><span class="kwd">interface</span><span class="pln"> text language selected </span><span class="kwd">for</span><span class="pln"> page</span><span class="pun">.</span></li><li class="L4"><span class="typ">Call</span><span class="pln"> the </span><span class="kwd">get</span><span class="pun">()</span><span class="pln"> method to attempt a cache read</span><span class="pun">,</span><span class="pln"> to see </span><span class="kwd">if</span><span class="pln"> the cache already contains your data</span><span class="pun">.</span></li><li class="L5"><span class="typ">If</span><span class="pln"> your data </span><span class="kwd">is</span><span class="pln"> </span><span class="kwd">not</span><span class="pln"> already </span><span class="kwd">in</span><span class="pln"> the cache</span><span class="pun">,</span><span class="pln"> compute it </span><span class="kwd">and</span><span class="pln"> add it to the cache </span><span class="kwd">using</span><span class="pln"> the </span><span class="kwd">set</span><span class="pun">()</span><span class="pln"> method</span><span class="pun">.</span><span class="pln"> </span><span class="typ">The</span><span class="pln"> third argument of </span><span class="kwd">set</span><span class="pun">()</span><span class="pln"> can be used to control the lifetime of your cache item</span><span class="pun">.</span></li></ol></pre>
+        </div>
+      </div>
+      <p>here is an example:</p>
+      <div class="ud-component--base-components--code-block">
+        <div>
+          <pre
+            class="prettyprint linenums prettyprinted"
+            role="presentation"
+            style=""
+          ><ol class="linenums"><li class="L0"><span class="pln">$cid </span><span class="pun">=</span><span class="pln"> </span><span class="str">'mymodule_example:'</span><span class="pln"> </span><span class="pun">.</span><span class="pln"> \Drupal</span><span class="pun">::</span><span class="pln">languageManager</span><span class="pun">()</span></li><li class="L1"><span class="pln">  </span><span class="pun">-&gt;</span><span class="pln">getCurrentLanguage</span><span class="pun">()</span></li><li class="L2"><span class="pln">  </span><span class="pun">-&gt;</span><span class="pln">getId</span><span class="pun">();</span></li><li class="L3"><span class="pln">$data </span><span class="pun">=</span><span class="pln"> NULL</span><span class="pun">;</span></li><li class="L4"><span class="pln">&nbsp;</span></li><li class="L5"><span class="kwd">if</span><span class="pln"> </span><span class="pun">(</span><span class="pln">$cache </span><span class="pun">=</span><span class="pln"> \Drupal</span><span class="pun">::</span><span class="pln">cache</span><span class="pun">()</span></li><li class="L6"><span class="pln">  </span><span class="pun">-&gt;</span><span class="kwd">get</span><span class="pun">(</span><span class="pln">$cid</span><span class="pun">))</span><span class="pln"> </span><span class="pun">{</span></li><li class="L7"><span class="pln">  $data </span><span class="pun">=</span><span class="pln"> $cache</span><span class="pun">-&gt;</span><span class="pln">data</span><span class="pun">;</span></li><li class="L8"><span class="pun">}</span></li><li class="L9"><span class="kwd">else</span><span class="pln"> </span><span class="pun">{</span></li><li class="L0"><span class="pln">  $data </span><span class="pun">=</span><span class="pln"> my_module_complicated_calculation</span><span class="pun">();</span></li><li class="L1"><span class="pln">  \Drupal</span><span class="pun">::</span><span class="pln">cache</span><span class="pun">()</span></li><li class="L2"><span class="pln">    </span><span class="pun">-&gt;</span><span class="kwd">set</span><span class="pun">(</span><span class="pln">$cid</span><span class="pun">,</span><span class="pln"> $data</span><span class="pun">);</span></li><li class="L3"><span class="pun">}</span></li></ol></pre>
+        </div>
+      </div>
+      <p>
+        The first bit of the example is the generation of the cid ... it could
+        be just some random string that you are sure is unique.
+      </p>
+      <p>
+        The second part is just the checking if there is already something in
+        the cache for this cid and if there is - fetching it - if there is not -
+        making the expensive call the the resource and then saving it in the
+        cache for the next call.
+      </p>
+      <p>There are cache bins, cache tags that you could check here for:</p>
+      <p>
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://api.drupal.org/api/drupal/core!core.api.php/group/cache/8.2.x"
+          >https://api.drupal.org/api/drupal/core!core.api.php/group/cache/8.2.x</a
+        >
+      </p>
+      <p>
+        And there are some more topics on the docu page of
+        <a target="_blank" rel="nofollow" href="https://drupal.org"
+          >drupal.org</a
+        >:
+      </p>
+      <p>
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://www.drupal.org/docs/8/api/cache-api"
+          >https://www.drupal.org/docs/8/api/cache-api</a
+        >
+      </p>
+      <p>
+        But the general caching is as easy as the code snippet that
+        I&nbsp;posted you here and also the cache tags are something that are
+        quite important. With them you could first as setting your tag mark with
+        a certain tag:
+      </p>
+      <div class="ud-component--base-components--code-block">
+        <div>
+          <pre
+            class="prettyprint linenums prettyprinted"
+            role="presentation"
+            style=""
+          ><ol class="linenums"><li class="L0"><span class="com">// A cache item with nodes, users, and some custom module data.</span></li><li class="L1"><span class="pln">$tags </span><span class="pun">=</span><span class="pln"> </span><span class="pun">[</span></li><li class="L2"><span class="pln">  </span><span class="str">'my_custom_tag'</span><span class="pun">,</span></li><li class="L3"><span class="pun">];</span></li><li class="L4"><span class="pln">\Drupal</span><span class="pun">::</span><span class="pln">cache</span><span class="pun">()</span></li><li class="L5"><span class="pln">  </span><span class="pun">-&gt;</span><span class="kwd">set</span><span class="pun">(</span><span class="pln">$cid</span><span class="pun">,</span><span class="pln"> $data</span><span class="pun">,</span><span class="pln"> </span><span class="typ">CacheBackendInterface</span><span class="pun">::</span><span class="pln">CACHE_PERMANENT</span><span class="pun">,</span><span class="pln"> $tags</span><span class="pun">);</span></li></ol></pre>
+        </div>
+      </div>
+      <p>and then invalidate the caches that are marked with this tag:</p>
+      <div class="ud-component--base-components--code-block">
+        <div>
+          <pre
+            class="prettyprint linenums prettyprinted"
+            role="presentation"
+            style=""
+          ><ol class="linenums"><li class="L0"><span class="pln">\Drupal\Core\Cache\Cache</span><span class="pun">::</span><span class="pln">invalidateTags</span><span class="pun">(</span><span class="pln">array</span><span class="pun">(</span></li><li class="L1"><span class="pln">  </span><span class="str">'my_custom_tag'</span><span class="pun">,</span></li><li class="L2"><span class="pun">));</span></li></ol></pre>
+        </div>
+      </div>
+      <p>
+        That is super convenient if you are fetching and caching closely related
+        resources that are dependent of each other.
+      </p>
+      <p>Hope this gives you a general overview,</p>
+      <p>Cheers and have a nice day</p>
+      <p>Nikolay</p>
+    </div>
+  </body>
+</html>

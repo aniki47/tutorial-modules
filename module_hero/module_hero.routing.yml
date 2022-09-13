@@ -1,0 +1,39 @@
+module_hero.heroList:
+  path: '/herolist'
+  defaults:
+    _controller: '\Drupal\module_hero\Controller\HeroController::heroList'
+    _title: 'Our Super Heroes List'
+  requirements:
+    _permission: 'access content'
+
+module_hero.heroForm:
+  path: '/hero-form'
+  defaults:
+    _form: '\Drupal\module_hero\Form\HeroForm'
+    _title: 'Match Form'
+  requirements:
+    _permission: 'can use hero form'
+
+module_hero.exampleForm:
+  path: '/example-form'
+  defaults:
+    _form: '\Drupal\module_hero\Form\exampleForm'
+    _title: 'Example Form'
+  requirements:
+    _permission: 'access content'
+
+module_hero.ajaxForm:
+  path: '/ajax-form'
+  defaults:
+    _form: '\Drupal\module_hero\Form\ajaxForm'
+    _title: 'Ajax Form'
+  requirements:
+    _permission: 'access content'
+
+module_hero.configHero:
+  path: '/admin/hero'
+  defaults:
+    _form: '\Drupal\module_hero\Form\HeroConfigForm'
+    _title: 'Custom admin config'
+  requirements:
+    _permission: 'administer site configuration'
